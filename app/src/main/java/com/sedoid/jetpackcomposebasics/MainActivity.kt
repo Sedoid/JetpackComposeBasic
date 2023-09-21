@@ -23,8 +23,12 @@ import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.ExpandLess
 import androidx.compose.material.icons.filled.ExpandMore
 import androidx.compose.material3.Button
+import androidx.compose.material3.Card
+import androidx.compose.material3.CardColors
+import androidx.compose.material3.CardDefaults
 import androidx.compose.material3.ElevatedButton
 import androidx.compose.material3.Icon
+import androidx.compose.material.icons.Icons.Filled
 import androidx.compose.material3.IconButton
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Surface
@@ -132,42 +136,14 @@ fun GreetingsPreview(){
 
 @Composable
 fun Greeting(name: String, modifier: Modifier = Modifier) {
-
-    val expanded = remember { mutableStateOf(false) }
-
-    val extraPadding by animateDpAsState(if(expanded.value) 75.dp else 0.dp,
-        animationSpec = spring(
-            dampingRatio = Spring.DampingRatioMediumBouncy,
-            stiffness = Spring.StiffnessLow
-        ))
-
-    Surface(color = MaterialTheme.colorScheme.primary, modifier = Modifier.padding(vertical = 5.dp, horizontal = 10.dp)) {
-
-        Row(modifier = Modifier.padding(25.dp)) {
-            Column(modifier = Modifier
-                .weight(1f)
-                .padding(bottom = extraPadding.coerceAtLeast(0.dp))
-            ) {
-                Text(text = "Hello",)
-                Text(
-                    text = "$name",
-                    style = MaterialTheme.typography.headlineMedium.copy(
-                        fontWeight = FontWeight.ExtraBold
-                    )
-                    )
-                Text(
-                    text=""
-                )
-            }
-            ElevatedButton(onClick = { expanded.value =  !expanded.value }) {
-                Text(text = if(expanded.value) "Show Less" else "Show more",)
-            }
-
-        }
-
+    Card(
+        colors = CardDefaults.cardColors(
+            containerColor = MaterialTheme.colorScheme.primary
+        ),
+        modifier = Modifier.padding(vertical = 4.dp, horizontal = 8.dp)
+    ){
+        CardContent(name = name)
     }
-
-
 }
 
 @Composable
@@ -206,7 +182,7 @@ private fun CardContent(name:String){
 
         IconButton(onClick = { expanded = !expanded }) {
             Icon(
-                imageVector = if(expanded) Icons.Filled.ExpandLess else Icons.Filled.ExpandMore,
+                imageVector = if(expanded) Filled.ExpandLess else Filled.ExpandMore,
                 contentDescription = if(expanded){
                     stringResource(id = R.string.show_less)
                 }else
